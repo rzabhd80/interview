@@ -3,14 +3,14 @@ from collections import defaultdict
 import pandas as pd
 from redis import Redis
 
-from exceptions.exception import RedisConnectionException
+from exceptions.exception import RedisConnectionException, FacadeInstanceCreation
 
 
 class RedisFacade:
     __redis_client = None
 
     def __init__(self) -> None:
-        raise Exception("")
+        raise FacadeInstanceCreation()
 
     @classmethod
     def setup(cls, host: str, port: int) -> None:

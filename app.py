@@ -7,6 +7,7 @@ from internals.redis_facade import RedisFacade
 from internals.spark_cluster_facade import SparkClusterFacade
 from internals.celery_facade import CeleryFacade
 from services.api.countries.router import router
+from services.api.revenue_analysis import router as revenue_router
 
 redis_host = os.getenv("REDIS_HOST")
 redis_port = os.getenv("REDIS_PORT")
@@ -18,7 +19,6 @@ SparkClusterFacade.setup_spark(spark_host=os.getenv("SPARK_HOST"), spark_port=os
                                minio_port=os.getenv("MINIO_PORT"), minio_access_key=os.getenv("MINIO_AC_KEY"),
                                minio_pass=os.getenv("MINIO_PASS"))
 
-
 CeleryFacade.setup(redis_host=redis_host, redis_port=redis_port)
 
 load_dotenv()
@@ -26,7 +26,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.register_blueprint(router, url_prefix="/country")
-
+app.register_blueprint()
 
 if __name__ == "__main__":
     pass

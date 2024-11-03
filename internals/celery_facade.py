@@ -1,16 +1,18 @@
 from celery import Celery
 
+from exceptions.exception import FacadeInstanceCreation
+
 
 class CeleryFacade:
-    __celery_instance = None
+    celery_instance: Celery = None
 
     def __init__(self):
-        pass
+        raise FacadeInstanceCreation()
 
     @classmethod
     def setup(cls, redis_host: str, redis_port: str):
-        CeleryFacade.__celery_instance = Celery("analysis", broker=f'redis://{redis_host}:{redis_port}/0')
+        CeleryFacade.celery_instance = Celery("analysis", broker=f'redis://{redis_host}:{redis_port}/0')
 
     @classmethod
     def get_celery(cls) -> Celery:
-        return CeleryFacade.__celery_instance
+        return CeleryFacade.celery_instance

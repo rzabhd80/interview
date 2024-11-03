@@ -1,5 +1,6 @@
 from flask import jsonify
 from redis import Redis
+from celery import Celery
 
 
 class CountryService:

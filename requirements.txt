@@ -7,3 +7,4 @@ python-dotenv~=0.19.2
 minio~=7.2.10
 celery~=5.4.0
 openpyxl
+loguru~=0.7.2

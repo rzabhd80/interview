@@ -1,12 +1,23 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
 
 from internals.spark_cluster_facade import SparkClusterFacade
+from services.api.revenue_analysis.revenue_analyzer_service import RevenueAnalyzerService
+from utils.global_error_handler import global_error_handler
 
 router = Blueprint("revenue_analysis", __name__)
 spark_client = SparkClusterFacade.get_spark()
 minio_client = SparkClusterFacade.get_minio()
 
+analyzer_service = RevenueAnalyzerService()
 
+
+@global_error_handler
 @router.get("/analysis", method=['POST'])
 def data_analysis():
-    pass
+    task = analyzer_service.analyze_revenue.delay()
+
+    return jsonify({
+        'task_id': task.id,
+        'status': 'Processing',
+        'message': 'Analysis started successfully'
+    }), 202
