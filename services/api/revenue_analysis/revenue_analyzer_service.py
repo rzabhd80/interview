@@ -11,7 +11,7 @@ class RevenueAnalyzerService:
         self.analyzer = Analyzer(SparkClusterFacade.get_spark(),
                                  SparkClusterFacade.get_minio(), "analysis")
 
-    @CeleryFacade.celery_instance.tasks
+    @CeleryFacade.celery_instance.task
     def analyze_revenue(self):
         dataset_path = os.getenv("REVENUE_DATASET_PATH")
         self.analyzer.calculate_revenue(dataset_path)
