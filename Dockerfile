@@ -3,7 +3,7 @@ FROM python:3.11-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        openjdk-11-jdk \
+        openjdk-17-jre-headless \
         procps \
         wget \
     && rm -rf /var/lib/apt/lists/*
@@ -22,7 +22,7 @@ RUN pip install openpyxl
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY deploy .
 
 EXPOSE 5000
 
