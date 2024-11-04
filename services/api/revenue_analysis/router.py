@@ -12,7 +12,7 @@ analyzer_service = RevenueAnalyzerService()
 
 
 @global_error_handler
-@router.get("/analysis", method=['POST'])
+@router.route("/analysis", method=['POST'])
 def data_analysis():
     task = analyzer_service.analyze_revenue.delay()
 

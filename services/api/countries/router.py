@@ -10,12 +10,12 @@ country_service = CountryService(redis_client=redis_client)
 
 
 @global_error_handler
-@router.get("/<str:country_code>", methods=['GET'])
+@router.route("/<str:country_code>", methods=['GET'])
 def get_cities(country_code: str):
     return country_service.get_country_cities(country_code)
 
 
 @global_error_handler
-@router.post("/", methods=['POST'])
+@router.route("/", methods=['POST'])
 def set_city(body: dict):
     return country_service.store_country_city(data=body)
