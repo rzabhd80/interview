@@ -26,7 +26,7 @@ def setup_application() -> Flask:
 
     instance = Flask(__name__)
     country_router = create_country_service()
-    revenue_router = create_revenue_analysis_service()
+    revenue_router = create_revenue_analysis_service(celery_instance=CeleryFacade.get_celery())
     instance.register_blueprint(country_router, url_prefix="/country")
     instance.register_blueprint(revenue_router, url_prefix="/analysis")
     return instance
