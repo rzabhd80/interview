@@ -11,6 +11,7 @@ class CeleryFacade:
 
     @classmethod
     def setup(cls, redis_host: str, redis_port: str):
+        print("celery is being setup")
         CeleryFacade.celery_instance = Celery("analysis", broker=f'redis://{redis_host}:{redis_port}/0')
 
     @classmethod

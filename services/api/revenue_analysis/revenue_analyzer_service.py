@@ -1,5 +1,7 @@
 import os
 
+from celery import Celery
+
 from internals.celery_facade import CeleryFacade
 from internals.spark_cluster_facade import SparkClusterFacade
 from services.api.revenue_analysis.analyzer import Analyzer
