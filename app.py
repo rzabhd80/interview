@@ -29,4 +29,4 @@ app.register_blueprint(router, url_prefix="/country")
 app.register_blueprint()
 
 if __name__ == "__main__":
-    pass
+    app.run()
