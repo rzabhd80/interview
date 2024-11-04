@@ -22,7 +22,7 @@ RUN pip install openpyxl
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY deploy .
+COPY . .
 
 EXPOSE 5000
 

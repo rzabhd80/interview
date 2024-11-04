@@ -31,6 +31,7 @@ services:
     depends_on:
       - redis
     environment:
+      - FLASK_APP=app.py
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     env_file:
