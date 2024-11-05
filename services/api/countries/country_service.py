@@ -9,7 +9,8 @@ class CountryService:
 
     def get_country_cities(self, country_code: str):
         cities = self.redis_client.smembers(country_code)
-        return jsonify({country_code: list(cities)})
+        cities = [city.decode('utf-8') for city in cities]
+        return jsonify({country_code: cities})
 
     def store_country_city(self, data: dict):
         country_code = data['country_code']

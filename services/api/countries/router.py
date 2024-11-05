@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify, request
 
 from internals.redis_facade import RedisFacade
 from services.api.countries.country_service import CountryService
@@ -17,7 +17,11 @@ def create_country_service() -> Blueprint:
 
     @global_error_handler
     @router.route("/", methods=['POST'])
-    def set_city(body: dict):
+    def set_city():
+        body = request.get_json()
+        if not body:
+            return jsonify({"error": "No JSON data found"}), 400
+
         return country_service.store_country_city(data=body)
 
     return router

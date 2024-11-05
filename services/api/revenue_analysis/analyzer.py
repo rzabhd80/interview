@@ -97,6 +97,7 @@ class Analyzer:
         )
 
     def calculate_revenue(self, dataset_path: str):
+        print("method calculate called")
         dataframe = self.__load_dataset(dataset_path)
         self.__store_original_debit(dataframe)
         self.__calculate_store_revenue_by_pay_type_interval(dataframe)

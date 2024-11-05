@@ -2,6 +2,7 @@ from minio import Minio
 from pyspark.sql import SparkSession
 from exceptions.exception import SparkConnectionException, FacadeInstanceCreation
 from os import environ
+import findspark
 
 
 class SparkClusterFacade:
@@ -14,6 +15,7 @@ class SparkClusterFacade:
     @classmethod
     def setup_spark(cls, spark_host: str, spark_port: str, minio_host: str, minio_port: str, minio_access_key: str,
                     minio_pass: str) -> None:
+        findspark.init()
         SparkClusterFacade.__minio_client = Minio(endpoint=f"{minio_host}:{minio_port}",
                                                   access_key=minio_access_key,
                                                   secret_key=minio_pass, secure=False)

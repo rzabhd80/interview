@@ -17,6 +17,7 @@ class RevenueAnalyzerService:
         analyzer = Analyzer(SparkClusterFacade.get_spark(),
                             SparkClusterFacade.get_minio(), "analysis")
         dataset_path = os.getenv("REVENUE_DATASET_PATH")
+        print(f"dataset path {dataset_path}")
         analyzer.calculate_revenue(dataset_path)
 
 

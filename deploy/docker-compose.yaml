@@ -92,6 +92,26 @@ services:
     networks:
       - app-network
 
+  celery-worker:
+    build:
+      context: ..
+    environment:
+      - FLASK_APP=app
+      - CELERY_APP=app
+      - PYTHONPATH=/app
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: "celery -A app.celery worker --loglevel=info"
+    depends_on:
+      - flask-api
+      - redis
+      - spark-master
+      - spark-worker
+      - minio
+
+    networks:
+      - app-network
+
 volumes:
   redis-data:
   minio-data:

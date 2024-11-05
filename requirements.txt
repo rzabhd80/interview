@@ -8,3 +8,4 @@ minio~=7.2.10
 celery~=5.4.0
 openpyxl
 loguru~=0.7.2
+findspark~=2.0.1
