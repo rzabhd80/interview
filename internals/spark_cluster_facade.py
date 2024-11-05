@@ -17,14 +17,17 @@ class SparkClusterFacade:
         SparkClusterFacade.__minio_client = Minio(endpoint=f"{minio_host}:{minio_port}",
                                                   access_key=minio_access_key,
                                                   secret_key=minio_pass, secure=False)
-        SparkClusterFacade.__minio_client.make_bucket("analysis")
-        SparkClusterFacade.__spark = SparkSession.builder.appName("analysis").master(f'{spark_host}:{spark_port}') \
+        if not SparkClusterFacade.__minio_client.bucket_exists("analysis"):
+            SparkClusterFacade.__minio_client.make_bucket("analysis")
+        SparkClusterFacade.__spark = SparkSession.builder.appName("analysis").master(
+            f'spark://{spark_host}:{spark_port}') \
             .config("spark.hadoop.fs.s3a.endpoint", f"http://{minio_host}:{minio_port}") \
             .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
             .config("spark.hadoop.fs.s3a.secret.key", minio_pass) \
             .config("spark.hadoop.fs.s3a.path.style.access", True) \
             .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
             .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false")
+
         try:
             SparkClusterFacade.__spark = SparkClusterFacade.__spark.getOrCreate()
         except Exception:

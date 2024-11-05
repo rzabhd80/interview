@@ -11,7 +11,7 @@ def create_country_service() -> Blueprint:
     country_service = CountryService(redis_client=redis_client)
 
     @global_error_handler
-    @router.route("/<str:country_code>", methods=['GET'])
+    @router.route("/<string:country_code>", methods=['GET'])
     def get_cities(country_code: str):
         return country_service.get_country_cities(country_code)
 

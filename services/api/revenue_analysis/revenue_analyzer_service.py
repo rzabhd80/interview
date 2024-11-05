@@ -7,25 +7,19 @@ from internals.spark_cluster_facade import SparkClusterFacade
 from services.api.revenue_analysis.analyzer import Analyzer
 
 
-class CeleryTaskWrapper:
-    celery_instance: Celery
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def apply(cls, celery: Celery):
-        cls.celery_instance = celery
-
-
 class RevenueAnalyzerService:
+    if not CeleryFacade.celery_instance:
+        CeleryFacade.setup(redis_host=os.getenv("REDIS_HOST"), redis_port=os.getenv("REDIS_PORT"))
 
-    def __init__(self, celery_instance: Celery):
-        self.analyzer = Analyzer(SparkClusterFacade.get_spark(),
-                                 SparkClusterFacade.get_minio(), "analysis")
-        CeleryTaskWrapper.apply(celery_instance)
-
-    @CeleryTaskWrapper.celery_instance.task
-    def analyze_revenue(self):
+    @staticmethod
+    @CeleryFacade.celery_instance.task
+    def analyze_revenue():
+        analyzer = Analyzer(SparkClusterFacade.get_spark(),
+                            SparkClusterFacade.get_minio(), "analysis")
         dataset_path = os.getenv("REVENUE_DATASET_PATH")
-        self.analyzer.calculate_revenue(dataset_path)
+        analyzer.calculate_revenue(dataset_path)
+
+
+def create_revenue_analyzer_service() -> RevenueAnalyzerService:
+    revenue = RevenueAnalyzerService()
+    return revenue

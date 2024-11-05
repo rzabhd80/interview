@@ -9,7 +9,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables after Java installation
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 ENV PYSPARK_PYTHON=/usr/local/bin/python
 ENV PYSPARK_DRIVER_PYTHON=/usr/local/bin/python

@@ -2,19 +2,18 @@ from celery import Celery
 from flask import Blueprint, request, jsonify
 
 from internals.spark_cluster_facade import SparkClusterFacade
-from services.api.revenue_analysis.revenue_analyzer_service import RevenueAnalyzerService
+from services.api.revenue_analysis.revenue_analyzer_service import create_revenue_analyzer_service
 from utils.global_error_handler import global_error_handler
 
 
-def create_revenue_analysis_service(celery_instance: Celery) -> Blueprint:
+def create_revenue_analysis_service() -> Blueprint:
     router = Blueprint("revenue_analysis", __name__)
     spark_client = SparkClusterFacade.get_spark()
     minio_client = SparkClusterFacade.get_minio()
-
-    analyzer_service = RevenueAnalyzerService(celery_instance)
+    analyzer_service = create_revenue_analyzer_service()
 
     @global_error_handler
-    @router.route("/analysis", method=['POST'])
+    @router.route("/analyze", methods=['POST'])
     def data_analysis():
         task = analyzer_service.analyze_revenue.delay()
 

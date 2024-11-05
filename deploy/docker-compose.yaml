@@ -30,8 +30,11 @@ services:
       - ./services:/services
     depends_on:
       - redis
+      - spark-master
+      - spark-worker
+      - minio
     environment:
-      - FLASK_APP=app.py
+      - FLASK_APP=app
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     env_file:
